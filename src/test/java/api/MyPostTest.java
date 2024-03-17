@@ -1,6 +1,5 @@
 package api;
 
-
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.DisplayName;
 import org.testng.annotations.Test;
@@ -13,7 +12,7 @@ public class MyPostTest {
 
 
     @Test
-    public void testRegistration() {
+    public void TestRegistration() {
         given()
                 .log().uri()
                 .log().body()
