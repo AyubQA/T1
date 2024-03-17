@@ -1,15 +1,16 @@
 package api;
 
+
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.Test;
 
 import static api.data.JsonData.*;
 import static api.data.URLs.*;
 import static io.restassured.RestAssured.given;
 
-
 public class MyPostTest {
+
 
     @Test
     public void testRegistration() {
