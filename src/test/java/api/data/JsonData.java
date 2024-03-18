@@ -6,6 +6,7 @@ public class JsonData {
 
     public static final String USERNAME_PREFIX = "user";
     public static final String PASSWORD_PREFIX = "pass";
+
     public static final String TestLogin = "{\n" +
             " \"username\": \"string\",\n" +
             " \"password\": \"string\"\n" +
@@ -37,4 +38,11 @@ public class JsonData {
     public static String getRandomPassword() {
         return PASSWORD_PREFIX + random.nextInt(1000);
     }
+
+    public static String BodyForAddProductForCart = "{\n" +
+            " \"product_id\": 1,\n" +
+            " \"quantity\": 2\n" +
+            "}";
 }
+
+

@@ -1,5 +1,6 @@
 package api;
 
+import api.data.Authorization;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.DisplayName;
 import org.testng.annotations.Test;
@@ -9,7 +10,8 @@ import static api.data.URLs.*;
 import static io.restassured.RestAssured.given;
 
 public class MyPostTest {
-
+    Authorization authExample = Authorization.getInstance();
+    String authToken = authExample.getAuthToken();
 
     @Test
     public void TestRegistration() {
@@ -76,10 +78,9 @@ public class MyPostTest {
         given()
                 .log().uri()
                 .log().body()
-                .queryParam("Product_Id", 1)
                 .contentType(ContentType.JSON)
                 .when()
-                .get(products)
+                .get(products + "/1")
                 .then()
                 .log().status()
                 .log().body()
@@ -93,10 +94,9 @@ public class MyPostTest {
                 .log().uri()
                 .log().body()
                 .body(BodyForUpdateProduct)
-                .queryParam("Product_Id", 1)
                 .contentType(ContentType.JSON)
                 .when()
-                .put(products)
+                .put(products + "/1")
                 .then()
                 .log().status()
                 .log().body()
@@ -109,10 +109,58 @@ public class MyPostTest {
         given()
                 .log().uri()
                 .log().body()
-                .queryParam("Product_Id", 8)
                 .contentType(ContentType.JSON)
                 .when()
-                .delete(products)
+                .delete(products + "/8")
+                .then()
+                .log().status()
+                .log().body()
+                .statusCode(200);
+    }
+
+    @Test
+    @DisplayName("Get users shopping cart")
+    public void TestGetUsersCart() {
+        given()
+                .log().uri()
+                .log().body()
+                .header("Authorization", "Bearer " + authToken)
+                .contentType(ContentType.JSON)
+                .when()
+                .get(cart)
+                .then()
+                .log().status()
+                .log().body()
+                .statusCode(200);
+    }
+
+    @Test
+    @DisplayName("Add a product to the users shopping cart")
+    public void PostAddProductToUsersCart() {
+        given()
+                .log().uri()
+                .log().body()
+                .header("Authorization", "Bearer " + authToken)
+                .contentType(ContentType.JSON)
+                .body(BodyForAddProductForCart)
+                .when()
+                .post(cart)
+                .then()
+                .log().status()
+                .log().body()
+                .statusCode(201);
+    }
+
+    @Test
+    @DisplayName("Remove a product from the users shopping cart")
+    public void DeleteProductFromUsersCart() {
+        given()
+                .log().uri()
+                .log().body()
+                .header("Authorization", "Bearer " + authToken)
+                .contentType(ContentType.JSON)
+                .when()
+                .delete(cart + "/1")
                 .then()
                 .log().status()
                 .log().body()
