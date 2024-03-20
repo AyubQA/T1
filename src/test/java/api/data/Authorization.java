@@ -3,14 +3,19 @@ package api.data;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import lombok.Getter;
 
-import static api.data.JsonData.TestLogin;
-import static api.data.URLs.login;
+import static api.data.URLs.loginURL;
 
 
+@Getter
 public class Authorization {
     private static Authorization instance;
     private String authToken;
+
+    public static String testUserLogin = "string";
+    public static String testUserPassword = "string";
+
 
     private Authorization() {
         // Private constructor to prevent instantiation
@@ -27,9 +32,9 @@ public class Authorization {
     private void retrieveAuthToken() {
         Response response = RestAssured.given()
                 .contentType(ContentType.JSON)
-                .body(TestLogin)
+                .body(new User(testUserLogin, testUserPassword))
                 .when()
-                .post(login);
+                .post(loginURL);
 
         if (response.getStatusCode() == 200) {
             authToken = response.jsonPath().getString("access_token");
@@ -39,7 +44,4 @@ public class Authorization {
         }
     }
 
-    public String getAuthToken() {
-        return authToken;
-    }
 }
